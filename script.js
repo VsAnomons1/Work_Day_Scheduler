@@ -1,4 +1,4 @@
-// Setting date and appending into the webpage
+// Setting the date and putting it into the webpage
 var setDate = moment().format("dddd, MMMM Do");
 $("#currentDay").append(setDate);
 var tableBody = $(".table").children().eq(1);
@@ -39,33 +39,37 @@ function setScheduler(){
         }
         }
         var tasks = $("<td></td>");
+        var pin = $("<td></td").attr("style", "border-left: 1px solid black;");
         var writeTask = $("<textarea></textarea>").val(assignedTasks[i]);
-        var save = $("<button>Save</button>").addClass("btn" + i);
+        var saveBtn = $("<button>Save</button>").addClass("btn" + i);
    
 
-        initText(save, writeTask, i)
+        initText(saveBtn, writeTask, i)
         tableRow.append(hours);
         tasks.append(writeTask);
+        pin.append(saveBtn);
         tableRow.append(tasks);
-        tableRow.append(save);
+        tableRow.append(pin);
         tableBody.append(tableRow);
         }
     }
-
-function initText(save, writeTask, i){
-
-    save.on("click", function(){
+// assigns value to the specified index of the assignedTasks array
+// upon the clicking of the savebtn
+function initText(saveBtn, writeTask, i){
+    saveBtn.on("click", function(){
+        saveBtn.text("Saved")
+        saveBtn.attr("style", "background-color: gray;")
         assignedTasks[i] = writeTask.val()
         storingTasks();
         })
     
     } 
-
+// Stores assignedTasks data to the localstorage
 function storingTasks(){
     localStorage.setItem("assignedTasks",JSON.stringify(assignedTasks));
 }
 
-
+// Updates assignedTasks
 function init(){
     var storeTasks = JSON.parse(localStorage.getItem("assignedTasks"));
     if(storeTasks !== null)    
